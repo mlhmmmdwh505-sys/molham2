@@ -1,0 +1,79 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Readex Pro', sans-serif; }
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #0f172a;
+    color: white;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+#game-screen {
+    width: 90%;
+    max-width: 450px;
+    height: 350px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.state-start { background: rgba(255,255,255,0.05); }
+.state-waiting { background: #f59e0b; color: #1e1b4b; }
+.state-go { background: #10b981; }
+.state-error { background: #ef4444; }
+
+.icon { font-size: 5rem; margin-bottom: 10px; }
+h1 { font-size: 2rem; }
+p { opacity: 0.7; margin-top: 10px; }
+
+.stats { margin-top: 30px; text-align: center; }
+.best-score { font-weight: bold; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; }
+#history-list { list-style: none; display: flex; gap: 8px; margin-top: 15px; opacity: 0.5; font-size: 0.8rem; }
+/* إضافة تأثير نبض عند الاستعداد */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.state-waiting {
+    background: #f59e0b;
+    color: #1e1b4b;
+    animation: pulse 1.5s infinite;
+}
+
+/* تحسين شكل القائمة التاريخية */
+#history-list li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+#history-list li:first-child {
+    background: #10b981; /* تلوين أحدث نتيجة */
+    color: white;
+    font-weight: bold;
+}
+/* أضف هذا التعديل لضمان ظهور السطرين بشكل جيد */
+#sub-text {
+    line-height: 1.5;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* تلوين رقم المتوسط ليكون مميزاً */
+b {
+    color: #10b981;
+    font-size: 1.1rem;
+}

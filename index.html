@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ سرعة الرد</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10b981">
+</head>
+<body>
+
+    <div id="game-screen" class="state-start">
+        <div id="icon" class="icon">⚡</div>
+        <h1 id="main-text">تحدي السرعة</h1>
+        <p id="sub-text">انقر في أي مكان للبدء</p>
+    </div>
+
+    <div class="stats">
+    <div class="best-score">الأفضل: <span id="high-score">0</span> ms</div>
+    <div class="averages" style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+        متوسطك: <span id="current-avg">0</span> ms | الطبيعي: 250 ms
+    </div>
+    <ul id="history-list"></ul>
+</div>
+
+    <div class="stats">
+        <ul id="history-list"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
