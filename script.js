@@ -36,7 +36,7 @@ screen.addEventListener('mousedown', () => {
             icon.innerText = '🚀';
             mainText.innerText = 'اضغط الآن!';
             startTime = performance.now();
-        }, Math.random() * 3000 + 2000);
+        }, Math.random() * 8000 + 2000);
     } 
     else if (state === 'WAITING') {
         clearTimeout(timeoutId);
