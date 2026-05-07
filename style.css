@@ -77,3 +77,20 @@ b {
     color: #10b981;
     font-size: 1.1rem;
 }
+
+/* منع ظهور القائمة الزرقاء أو الشفافة عند الضغط المتكرر في الموبايل */
+#game-screen {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    user-select: none; /* عشان النص ميتظللش وأنت بتدوس بسرعة */
+}
+
+/* تحسين شكل النصوص عشان تكون واضحة جداً */
+h1 {
+    letter-spacing: -0.5px;
+}
+
+#sub-text {
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9); 
+}
