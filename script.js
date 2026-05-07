@@ -21,7 +21,7 @@ function getRank(ms) {
     return "😴 بطيء ";
 }
 
-screen.addEventListener('mousedown', () => {
+screen.addEventListener('pointerdown', () => {
     if (state === 'START' || state === 'RESULT') {
         state = 'WAITING';
         screen.className = 'state-waiting';
