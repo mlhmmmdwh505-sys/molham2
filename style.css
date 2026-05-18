@@ -17,8 +17,8 @@ body {
     user-select: none;
     touch-action: manipulation;
     padding: 20px 10px;
+    overflow-y: hidden; /* 👈 السطر ده هيخفي شريط الحركة الجانبي للأبد */
 }
-
 /* 2. شريط إدخال اسم المتسابق */
 .player-section {
     margin-bottom: 25px;
