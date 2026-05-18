@@ -134,3 +134,18 @@ function clearHistory() {
         renderHistoryTable();
     }
 }
+// دالة مطورة لفتح وإغلاق قسم النصائح بأنيميشن سلس
+function toggleTips() {
+    const container = document.querySelector('.tips-container');
+    const arrow = document.getElementById('tips-arrow');
+    
+    // التبديل بين إضافة وحذف كلاس الفتح
+    container.classList.toggle('active');
+    
+    // تغيير اتجاه السهم بناءً على حالة القسم
+    if (container.classList.contains('active')) {
+        arrow.innerText = '🔼';
+    } else {
+        arrow.innerText = '🔽';
+    }
+}
