@@ -58,6 +58,7 @@ screen.addEventListener('mousedown', () => {
         subText.innerText = 'حاول التركيز أكثر.. انقر للبدء ثانية';
         if(navigator.vibrate) navigator.vibrate(150);
     } 
+    // ابحث عن السطر اللي فيه تسجيل البيانات عند حالة 'GO' واستبدله بهذا الجزء:
     else if (state === 'GO') {
         const score = Math.round(performance.now() - startTime);
         state = 'RESULT';
@@ -80,6 +81,25 @@ screen.addEventListener('mousedown', () => {
             localStorage.setItem('best', score);
             highScoreDisplay.innerText = score;
         }
+
+        // --- التعديل هنا: تسجيل اليوم والتاريخ فقط بدون الوقت ---
+        const now = new Date();
+        const currentDayDate = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+        const currentPlayerName = usernameInput.value.trim() || "متسابق مجهول";
+
+        // إدخال البيانات في مصفوفة السجل
+        reactionHistory.unshift({
+            name: currentPlayerName,
+            score: score,
+            date: currentDayDate
+        });
+
+        // الحفظ التلقائي في الكاش
+        localStorage.setItem('reactionHistory', JSON.stringify(reactionHistory));
+        
+        // تحديث عرض الجدول
+        renderHistoryTable();
+    }
 
         // --- إضافة النتيجة الحالية مع الاسم، اليوم، والتاريخ، والوقت ---
         const now = new Date();
@@ -104,9 +124,9 @@ screen.addEventListener('mousedown', () => {
 });
 
 // دالة بناء وعرض الجدول التاريخي للمتسابقين
+// دالة بناء وعرض الجدول التاريخي للمتسابقين (بدون وقت)
 function renderHistoryTable() {
     historyRows.innerHTML = '';
-    // عرض آخر 10 محاولات للتطور منعاً لازدحام الشاشة
     const displayList = reactionHistory.slice(0, 10); 
     
     displayList.forEach(item => {
@@ -115,7 +135,6 @@ function renderHistoryTable() {
             <td><b>${item.name}</b></td>
             <td style="color: #10b981; font-weight: bold;">${item.score} ms</td>
             <td>${item.date}</td>
-            <td>${item.time}</td>
         `;
         historyRows.appendChild(row);
     });
