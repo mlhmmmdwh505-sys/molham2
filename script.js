@@ -135,17 +135,21 @@ function clearHistory() {
     }
 }
 // دالة مطورة لفتح وإغلاق قسم النصائح بأنيميشن سلس
+// دالة التشغيل الصحيحة لفتح وإغلاق النصائح بالضغط على رأس القسم
 function toggleTips() {
     const container = document.querySelector('.tips-container');
     const arrow = document.getElementById('tips-arrow');
     
-    // التبديل بين إضافة وحذف كلاس الفتح
-    container.classList.toggle('active');
-    
-    // تغيير اتجاه السهم بناءً على حالة القسم
+    // التحقق من أن العناصر موجودة في الصفحة منعاً لأي خطأ برمجي
+    if (!container || !arrow) return;
+
+    // تبديل حالة الظهور والاختفاء
     if (container.classList.contains('active')) {
-        arrow.innerText = '🔼';
-    } else {
+        container.classList.remove('active');
         arrow.innerText = '🔽';
+    } else {
+        container.classList.add('active');
+        arrow.innerText = '🔼';
     }
+}
 }
