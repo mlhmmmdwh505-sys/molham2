@@ -14,6 +14,7 @@ let highScore = localStorage.getItem('best') || null;
 
 if(highScore) highScoreDisplay.innerText = highScore;
 
+// عند فتح الموقع: استرجاع اسم آخر لاعب وعرض الجدول
 window.onload = () => {
     usernameInput.value = localStorage.getItem('currentPlayer') || "خالد";
     renderHistoryTable();
@@ -23,6 +24,7 @@ function saveCurrentPlayer() {
     localStorage.setItem('currentPlayer', usernameInput.value.trim() || "متسابق مجهول");
 }
 
+// 1. دالة تحديد الرتبة بناءً على السرعة
 function getRank(ms) {
     if (ms < 200) return "🔥 أسطوري ";
     if (ms < 250) return "⚡ سريع جداً ";
@@ -39,6 +41,7 @@ screen.addEventListener('mousedown', () => {
         mainText.innerText = 'انتظر...';
         subText.innerText = 'لا تضغط حتى يتغير اللون للأخضر';
         
+        // وقت عشوائي بين 2 إلى 5 ثواني
         timeoutId = setTimeout(() => {
             state = 'GO';
             screen.className = 'state-go';
@@ -62,40 +65,51 @@ screen.addEventListener('mousedown', () => {
         screen.className = 'state-start';
         icon.innerText = '⏱️';
         
+        // حفظ النتيجة في المصفوفة لحساب المتوسط
         allScores.push(score);
+        
+        // حساب متوسط نتائج اللاعب
         const avgScore = Math.round(allScores.reduce((a, b) => a + b) / allScores.length);
         document.getElementById('current-avg').innerText = avgScore;
 
         const rank = getRank(score);
         mainText.innerText = `${score} ms`;
         
+        // إضافة مقارنة مع المتوسط الطبيعي في النص الفرعي
         const diff = score - 250;
         const comparison = diff <= 0 ? "أسرع من الطبيعي!" : "أبطأ من الطبيعي";
         subText.innerHTML = `رتبتك: ${rank} <br> <b>${comparison}</b>`;
         
+        // تحديث الأفضل (High Score)
         if(!highScore || score < highScore) {
             highScore = score;
             localStorage.setItem('best', score);
             highScoreDisplay.innerText = score;
         }
 
-        // جلب التاريخ واليوم الحاليين فقط بدون الساعات والدقائق
+        // جلب التاريخ واليوم الحاليين فقط (بدون الوقت) واقتصاصه
         const now = new Date();
         const currentDayDate = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const currentPlayerName = usernameInput.value.trim() || "متسابق مجهول";
 
+        // إدخال البيانات الجديدة في مصفوفة السجل
         reactionHistory.unshift({
             name: currentPlayerName,
             score: score,
             date: currentDayDate
         });
 
+        // الحفظ التلقائي الفوري في الكاش
         localStorage.setItem('reactionHistory', JSON.stringify(reactionHistory));
+        
+        // تحديث عرض الجدول تلقائياً
         renderHistoryTable();
     }
 });
 
+// دالة بناء وعرض الجدول التاريخي للمتسابقين
 function renderHistoryTable() {
+    if(!historyRows) return;
     historyRows.innerHTML = '';
     const displayList = reactionHistory.slice(0, 10); 
     
@@ -110,6 +124,7 @@ function renderHistoryTable() {
     });
 }
 
+// دالة لمسح السجل التراكمي
 function clearHistory() {
     if(confirm("هل تريد مسح سجل تطور المتسابقين بالكامل؟")) {
         reactionHistory = [];
