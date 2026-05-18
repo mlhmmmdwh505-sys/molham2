@@ -152,4 +152,4 @@ function toggleTips() {
         arrow.innerText = '🔼';
     }
 }
-}
+
