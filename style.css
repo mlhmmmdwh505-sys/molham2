@@ -195,3 +195,81 @@ b { color: #10b981; font-size: 1rem; }
 }
 
 .btn-clear:hover { opacity: 1; }
+
+/* التنسيق النهائي لظهور واختفاء النصائح بأنيميشن ناعم */
+.tips-container {
+    width: 90%;
+    max-width: 450px;
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out; /* سرعة استجابة الحركة */
+}
+
+.tips-header {
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #10b981;
+    user-select: none;
+}
+
+.tips-header:hover {
+    background: rgba(16, 185, 129, 0.05);
+}
+
+/* حالة الاختفاء الافتراضية المضمونة */
+.tips-content {
+    max-height: 0px; 
+    opacity: 0;
+    visibility: hidden; /* يمنع ظهور الكلمات نهائياً وهي مقفولة */
+    padding: 0px 20px;
+    text-align: right;
+    border-top: 1px solid transparent;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out, padding 0.3s ease-in-out;
+}
+
+/* حالة الظهور الفوري عند الضغط وتحول الصندوق لـ active */
+.tips-container.active .tips-content {
+    max-height: 380px; /* طول مناسب يستوعب كل النصائح */
+    opacity: 1;
+    visibility: visible; /* إظهار الكلمات بالكامل */
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tips-content ul {
+    list-style: none;
+}
+
+.tips-content li {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 12px;
+    line-height: 1.6;
+    position: relative;
+    padding-right: 15px;
+}
+
+.tips-content li::before {
+    content: "•";
+    color: #10b981;
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: absolute;
+    right: 0;
+    top: -2px;
+}
+
+.tips-content li b {
+    color: #10b981;
+}
