@@ -1,63 +1,190 @@
-/* تنسيق قسم إدخال الاسم */
+/* 1. التنسيقات الأساسية ونوع الخط */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Readex Pro', sans-serif; 
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #0f172a;
+    color: white;
+    user-select: none;
+    touch-action: manipulation;
+    padding: 20px 10px;
+}
+
+/* 2. شريط إدخال اسم المتسابق */
 .player-section {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 450px;
+    justify-content: center;
 }
+
+.player-section label {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #10b981;
+}
+
 .player-section input {
-    background: #0f172a;
-    border: 1px solid #10b981;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.5);
     color: white;
-    padding: 8px 12px;
+    padding: 8px 15px;
     border-radius: 8px;
     font-family: 'Readex Pro', sans-serif;
     outline: none;
+    text-align: center;
+    font-size: 0.9rem;
+    transition: 0.3s;
 }
 
-/* تنسيق جدول تتبع التطور */
+.player-section input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+/* 3. شاشة اللعبة الرئيسية */
+#game-screen {
+    width: 90%;
+    max-width: 450px;
+    height: 320px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s, transform 0.1s;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#game-screen:active {
+    transform: scale(0.98);
+}
+
+/* حالات الشاشة والألوان */
+.state-start { background: rgba(255, 255, 255, 0.04); }
+.state-go { background: #10b981; color: white; }
+.state-error { background: #ef4444; color: white; }
+
+/* تأثير النبض والحركة لشاشة الانتظار الأصفر */
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0px rgba(245, 158, 11, 0); }
+    50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); }
+    100% { transform: scale(1); box-shadow: 0 0 0px rgba(245, 158, 11, 0); }
+}
+
+.state-waiting { 
+    background: #f59e0b; 
+    color: #1e1b4b; 
+    animation: pulse 1.2s infinite ease-in-out;
+}
+
+/* نصوص الشاشة */
+.icon { font-size: 4.5rem; margin-bottom: 10px; }
+h1 { font-size: 2rem; font-weight: 700; }
+#sub-text { opacity: 0.8; margin-top: 15px; line-height: 1.6; text-align: center; font-size: 0.95rem; }
+b { color: #10b981; font-size: 1.05rem; }
+.state-waiting b { color: #1e1b4b; }
+
+/* 4. لوحة الإحصائيات والمتوسطات */
+.stats { 
+    margin-top: 25px; 
+    text-align: center; 
+    width: 90%;
+    max-width: 450px;
+}
+
+.best-score { 
+    font-weight: bold; 
+    background: rgba(255, 255, 255, 0.08); 
+    padding: 6px 20px; 
+    border-radius: 20px; 
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+#high-score { color: #10b981; }
+
+/* 5. جدول الحفظ والتطور الزجاجي */
 .history-container {
     width: 90%;
     max-width: 450px;
     margin-top: 25px;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
     border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
+
 .history-container h3 {
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #10b981;
+    font-weight: 700;
 }
+
 #history-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.8rem;
-    margin-top: 10px;
+    font-size: 0.85rem;
 }
-#history-table th, #history-table td {
-    padding: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    text-align: center;
-}
+
 #history-table th {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.5);
+    padding: 10px 5px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    font-weight: 400;
 }
+
+#history-table td {
+    padding: 10px 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* تلوين أول صف (أحدث محاولة) */
+#history-table tbody tr:first-child td {
+    background: rgba(16, 185, 129, 0.1);
+    font-weight: bold;
+}
+
+/* زر مسح السجل */
 .btn-clear {
     background: none;
     border: none;
     color: #ef4444;
     cursor: pointer;
     font-family: 'Readex Pro', sans-serif;
-    margin-top: 12px;
+    margin-top: 15px;
     font-size: 0.8rem;
     opacity: 0.7;
     transition: 0.3s;
+    font-weight: bold;
 }
-.btn-clear:hover { opacity: 1; }
+
+.btn-clear:hover { 
+    opacity: 1; 
+    text-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+}
