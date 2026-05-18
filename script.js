@@ -1,5 +1,4 @@
 let allScores = [];
-// جلب سجل التطور المحفوظ أو إنشاء سجل فارغ لو أول مرة
 let reactionHistory = JSON.parse(localStorage.getItem('reactionHistory')) || [];
 
 const screen = document.getElementById('game-screen'),
@@ -15,9 +14,8 @@ let highScore = localStorage.getItem('best') || null;
 
 if(highScore) highScoreDisplay.innerText = highScore;
 
-// عند فتح الموقع: استرجاع اسم آخر لاعب وعرض جدول التطور
 window.onload = () => {
-    usernameInput.value = localStorage.getItem('currentPlayer') || "متسابق مجهول";
+    usernameInput.value = localStorage.getItem('currentPlayer') || "خالد";
     renderHistoryTable();
 };
 
@@ -58,7 +56,6 @@ screen.addEventListener('mousedown', () => {
         subText.innerText = 'حاول التركيز أكثر.. انقر للبدء ثانية';
         if(navigator.vibrate) navigator.vibrate(150);
     } 
-    // ابحث عن السطر اللي فيه تسجيل البيانات عند حالة 'GO' واستبدله بهذا الجزء:
     else if (state === 'GO') {
         const score = Math.round(performance.now() - startTime);
         state = 'RESULT';
@@ -82,49 +79,22 @@ screen.addEventListener('mousedown', () => {
             highScoreDisplay.innerText = score;
         }
 
-        // --- التعديل هنا: تسجيل اليوم والتاريخ فقط بدون الوقت ---
+        // جلب التاريخ واليوم الحاليين فقط بدون الساعات والدقائق
         const now = new Date();
-        const currentDayDate = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+        const currentDayDate = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const currentPlayerName = usernameInput.value.trim() || "متسابق مجهول";
 
-        // إدخال البيانات في مصفوفة السجل
         reactionHistory.unshift({
             name: currentPlayerName,
             score: score,
             date: currentDayDate
         });
 
-        // الحفظ التلقائي في الكاش
         localStorage.setItem('reactionHistory', JSON.stringify(reactionHistory));
-        
-        // تحديث عرض الجدول
-        renderHistoryTable();
-    }
-
-        // --- إضافة النتيجة الحالية مع الاسم، اليوم، والتاريخ، والوقت ---
-        const now = new Date();
-        const currentDayDate = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
-        const currentTime = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        const currentPlayerName = usernameInput.value.trim() || "متسابق مجهول";
-
-        // إدخال البيانات في مصفوفة السجل
-        reactionHistory.unshift({
-            name: currentPlayerName,
-            score: score,
-            date: currentDayDate,
-            time: currentTime
-        });
-
-        // الحفظ التلقائي فوراً في كاش المتصفح حتى لو خرجت
-        localStorage.setItem('reactionHistory', JSON.stringify(reactionHistory));
-        
-        // تحديث عرض الجدول فوراً
         renderHistoryTable();
     }
 });
 
-// دالة بناء وعرض الجدول التاريخي للمتسابقين
-// دالة بناء وعرض الجدول التاريخي للمتسابقين (بدون وقت)
 function renderHistoryTable() {
     historyRows.innerHTML = '';
     const displayList = reactionHistory.slice(0, 10); 
@@ -133,14 +103,13 @@ function renderHistoryTable() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td><b>${item.name}</b></td>
-            <td style="color: #10b981; font-weight: bold;">${item.score} ms</td>
+            <td style="color: #10b981; font-weight: bold;">ms ${item.score}</td>
             <td>${item.date}</td>
         `;
         historyRows.appendChild(row);
     });
 }
 
-// دالة لمسح السجل التراكمي إذا أردت تصفيره
 function clearHistory() {
     if(confirm("هل تريد مسح سجل تطور المتسابقين بالكامل؟")) {
         reactionHistory = [];
