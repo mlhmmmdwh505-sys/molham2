@@ -17,11 +17,19 @@ body {
     user-select: none;
     touch-action: manipulation;
     padding: 20px 10px;
-    overflow-y: hidden; /* 👈 السطر ده هيخفي شريط الحركة الجانبي للأبد */
+    /* إخفاء شريط المتصفح الرئيسي المزعج مع السماح بالمرونة */
+    overflow-x: hidden;
 }
+
+/* إخفاء شريط التمرير الافتراضي للمتصفحات تماماً */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
 /* 2. شريط إدخال اسم المتسابق */
 .player-section {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     background: rgba(255, 255, 255, 0.05);
     padding: 12px 25px;
     border-radius: 15px;
@@ -63,7 +71,7 @@ body {
 #game-screen {
     width: 90%;
     max-width: 450px;
-    height: 320px;
+    height: 280px; /* صغرنا الارتفاع قليلاً ليتناسق مع الشاشات */
     border-radius: 25px;
     display: flex;
     flex-direction: column;
@@ -76,16 +84,14 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-#game-screen:active {
-    transform: scale(0.98);
-}
+#game-screen:active { transform: scale(0.98); }
 
 /* حالات الشاشة والألوان */
 .state-start { background: rgba(255, 255, 255, 0.04); }
 .state-go { background: #10b981; color: white; }
 .state-error { background: #ef4444; color: white; }
 
-/* تأثير النبض والحركة لشاشة الانتظار الأصفر */
+/* تأثير النبض لشاشة الانتظار */
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 0 0px rgba(245, 158, 11, 0); }
     50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); }
@@ -99,15 +105,14 @@ body {
 }
 
 /* نصوص الشاشة */
-.icon { font-size: 4.5rem; margin-bottom: 10px; }
-h1 { font-size: 2rem; font-weight: 700; }
-#sub-text { opacity: 0.8; margin-top: 15px; line-height: 1.6; text-align: center; font-size: 0.95rem; }
-b { color: #10b981; font-size: 1.05rem; }
-.state-waiting b { color: #1e1b4b; }
+.icon { font-size: 4rem; margin-bottom: 5px; }
+h1 { font-size: 1.8rem; font-weight: 700; }
+#sub-text { opacity: 0.8; margin-top: 10px; line-height: 1.5; text-align: center; font-size: 0.9rem; }
+b { color: #10b981; font-size: 1rem; }
 
 /* 4. لوحة الإحصائيات والمتوسطات */
 .stats { 
-    margin-top: 25px; 
+    margin-top: 15px; 
     text-align: center; 
     width: 90%;
     max-width: 450px;
@@ -120,27 +125,32 @@ b { color: #10b981; font-size: 1.05rem; }
     border-radius: 20px; 
     display: inline-block;
     border: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.9rem;
 }
 
 #high-score { color: #10b981; }
 
-/* 5. جدول الحفظ والتطور الزجاجي */
+/* 5. جدول الحفظ والتطور الزجاجي (صندوق مستقل وقابل للتقليب الداخلي) */
 .history-container {
     width: 90%;
     max-width: 450px;
-    margin-top: 25px;
+    margin-top: 20px;
     background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
+    padding: 15px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.06);
     text-align: center;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    
+    /* هنا السحر: تحديد أقصى طول للجدول وجعله يقلب داخلياً في صمت وبدون أشرطة */
+    max-height: 220px;
+    overflow-y: auto; 
 }
 
 .history-container h3 {
-    font-size: 1rem;
-    margin-bottom: 15px;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
     color: #10b981;
     font-weight: 700;
 }
@@ -148,23 +158,23 @@ b { color: #10b981; font-size: 1.05rem; }
 #history-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 #history-table th {
     color: rgba(255, 255, 255, 0.5);
-    padding: 10px 5px;
+    padding: 8px 5px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     font-weight: 400;
 }
 
 #history-table td {
-    padding: 10px 5px;
+    padding: 8px 5px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* تلوين أول صف (أحدث محاولة) */
+/* تمييز الصف الأول الأحدث */
 #history-table tbody tr:first-child td {
     background: rgba(16, 185, 129, 0.1);
     font-weight: bold;
@@ -177,14 +187,11 @@ b { color: #10b981; font-size: 1.05rem; }
     color: #ef4444;
     cursor: pointer;
     font-family: 'Readex Pro', sans-serif;
-    margin-top: 15px;
-    font-size: 0.8rem;
+    margin-top: 10px;
+    font-size: 0.75rem;
     opacity: 0.7;
     transition: 0.3s;
     font-weight: bold;
 }
 
-.btn-clear:hover { 
-    opacity: 1; 
-    text-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
-}
+.btn-clear:hover { opacity: 1; }
