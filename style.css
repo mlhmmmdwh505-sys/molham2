@@ -240,7 +240,7 @@ b { color: #10b981; font-size: 1rem; }
 
 /* حالة الظهور الفوري عند الضغط وتحول الصندوق لـ active */
 .tips-container.active .tips-content {
-    max-height: 600px; /* طول مناسب يستوعب كل النصائح */
+    max-height: 800px; /* طول مناسب يستوعب كل النصائح */
     opacity: 1;
     visibility: visible; /* إظهار الكلمات بالكامل */
     padding: 15px 20px;
