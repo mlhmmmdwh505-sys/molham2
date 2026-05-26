@@ -6,8 +6,23 @@
   "background_color": "#0f172a",
   "theme_color": "#10b981",
   "icons": [
-  { "src": "icon.png",
-   "sizes": "512x512",
-   "type": "image/png" }
+    {
+      "src": "newsflash.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "newsflash.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "newsflash.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
   ]
 }
