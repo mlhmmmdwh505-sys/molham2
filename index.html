@@ -19,16 +19,19 @@
         <input type="text" id="username-input" placeholder="اكتب اسمك هنا..." onchange="saveCurrentPlayer()">
     </div>
 
-    <div id="game-screen" class="state-start">
+    <div id="game-screen" class="state-start" role="button" tabindex="0" aria-label="اختبار سرعة رد الفعل">
         <div id="icon" class="icon">⚡</div>
         <h1 id="main-text">تحدي السرعة</h1>
-        <p id="sub-text">انقر في أي مكان للبدء</p>
+        <p id="sub-text">المس أو انقر للبدء، أو استخدم Enter أو المسافة</p>
     </div>
 
     <div class="stats">
         <div class="best-score">الأفضل: <span id="high-score">0</span> ms</div>
         <div class="averages" style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
             متوسطك: <span id="current-avg">0</span> ms | الطبيعي: 250 ms
+        </div>
+        <div style="margin-top: 6px; font-size: 0.75rem; opacity: 0.6;">
+            يبدأ القياس مع إطار ظهور الإشارة؛ وقد يختلف الرقم حسب تأخير الشاشة واللمس أو الماوس.
         </div>
     </div>
 

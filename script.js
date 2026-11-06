@@ -33,7 +33,31 @@ function getRank(ms) {
     return "😴 بطيء ";
 }
 
-screen.addEventListener('mousedown', () => {
+// وقت الحدث على نفس الساعة عالية الدقة المستخدمة مع requestAnimationFrame.
+// بعض المتصفحات القديمة تعيد event.timeStamp بصيغة وقت Unix، لذا نحوّله عند الحاجة.
+function getInputTime(event) {
+    const now = performance.now();
+    let inputTime = Number(event.timeStamp);
+
+    if (Number.isFinite(inputTime) && inputTime > 1e12) {
+        inputTime -= performance.timeOrigin;
+    }
+
+    if (!Number.isFinite(inputTime) || inputTime < 0 || inputTime > now || now - inputTime > 60000) {
+        return now;
+    }
+
+    return inputTime;
+}
+
+function handleGameInput(event) {
+    if (event.type === 'keydown') {
+        if (event.repeat || (event.key !== ' ' && event.key !== 'Enter')) return;
+        event.preventDefault();
+    } else if (event.isPrimary === false || event.button !== 0) {
+        return;
+    }
+
     if (state === 'START' || state === 'RESULT') {
         state = 'WAITING';
         screen.className = 'state-waiting';
@@ -43,11 +67,14 @@ screen.addEventListener('mousedown', () => {
         
         // وقت عشوائي بين 2 إلى 5 ثواني
         timeoutId = setTimeout(() => {
-            state = 'GO';
-            screen.className = 'state-go';
-            icon.innerText = '🚀';
-            mainText.innerText = 'اضغط الآن!';
-            startTime = performance.now();
+            // غيّر الإشارة داخل إطار رسم فعلي، وابدأ الساعة عند تجهيز هذا الإطار.
+            requestAnimationFrame((frameTime) => {
+                state = 'GO';
+                screen.className = 'state-go';
+                icon.innerText = '🚀';
+                mainText.innerText = 'اضغط الآن!';
+                startTime = frameTime;
+            });
         }, Math.random() * 3000 + 2000);
     } 
     else if (state === 'WAITING') {
@@ -60,7 +87,7 @@ screen.addEventListener('mousedown', () => {
         if(navigator.vibrate) navigator.vibrate(150);
     } 
     else if (state === 'GO') {
-        const score = Math.round(performance.now() - startTime);
+        const score = Math.max(0, Math.round(getInputTime(event) - startTime));
         state = 'RESULT';
         screen.className = 'state-start';
         icon.innerText = '⏱️';
@@ -105,7 +132,11 @@ screen.addEventListener('mousedown', () => {
         // تحديث عرض الجدول تلقائياً
         renderHistoryTable();
     }
-});
+}
+
+// pointerdown يقيس لحظة بدء الضغط على الماوس أو لمس الشاشة، بدلاً من انتظار رفع الإصبع.
+screen.addEventListener('pointerdown', handleGameInput);
+screen.addEventListener('keydown', handleGameInput);
 
 // دالة بناء وعرض الجدول التاريخي للمتسابقين
 function renderHistoryTable() {
